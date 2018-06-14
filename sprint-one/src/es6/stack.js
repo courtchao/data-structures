@@ -12,9 +12,11 @@ class Stack {
   }
 
   pop() {
-    var deleted = this.storage[this.count];
-    delete this.storage[this.count];
-    this.count--;
+    var deleted = this.storage[this.count - 1];
+    delete this.storage[this.count - 1];
+    if (this.count > 0) {
+      this.count--;      
+    }
     return deleted;
   }
 

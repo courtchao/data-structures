@@ -5,22 +5,36 @@ class Queue {
     this.storage = {};
     this.beginning = 0;
     this.end = 0;
+    this.count = 0;
   }
 
   enqueue(val) {
-    this.storage[this.beginning] = val;
-    this.end++;
+    if (Object.values(this.storage).length === 0) {
+      this.storage[this.beginning] = val;  
+      this.count++; 
+    } else {
+      for (var index in this.storage) {
+        this.storage[this.beginning + 1] = this.storage[this.beginning];
+      }
+      this.storage[this.beginning] = val;
+      this.end++;
+      this.count++;
+    }
   }
 
   dequeue() {
     var deleted = this.storage[this.end];
-    delete deleted;
-    this.end--;
+    delete this.storage[this.end];
+    if (this.count > 0) {
+      this.count--;
+    }
+    if (this.end > 0) {
+      this.end--;      
+    }
     return deleted;
   }
 
   size() {
-    return (this.end - this.beginning);
+    return this.count;
   }
-
 }
