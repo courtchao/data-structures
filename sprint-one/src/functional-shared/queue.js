@@ -2,40 +2,46 @@ var Queue = function() {
   // Hey! Rewrite in the new style. Your code will wind up looking very similar,
   // but try not not reference your old code in writing the new style.
   var someInstance = {};
-  var storage = {};
+  someInstance.storage = {};
+  someInstance.beginning = 0;
+  someInstance.end = 0;
+  someInstance.count = 0;
 
-  _.extend(storage, queueMethods);
+  _.extend(someInstance, queueMethods);
 
-  return storage;
+  return someInstance;
 };
 
 var queueMethods = {
   enqueue: function(value) {
-    if (this.storage.hasOwnProperty !== undefined) {
-      for (var key in this.storage) {
-        this.storage[key + 1] = this.storage[key];
-        this.storage[0] = value;
-      }
+
+    if (Object.values(this.storage).length === 0) {
+      this.storage[this.beginning] = value;
+      this.count++;
     } else {
-      this[0] = value;
+      for (var val in this.storage) {
+        this.storage[this.beginning + 1] = this.storage[this.beginning];
+        this.end++; 
+        this.count++;       
+      }
     }
+    this.storage[this.beginning] = value;
   },
 
   dequeue: function() {
-    var lastIndex = Object.keys(this.storage)[Object.keys(this.storage).length - 1];
-    var deleted = this.storage[lastIndex];
-    delete this.storage[lastIndex];
+    var deleted = this.storage[this.end];
+    delete this.storage[this.end];
+    if (this.end > 0) {
+      this.end--;
+    }
+    if (this.count > 0) {
+      this.count--;        
+    }
     return deleted;
   },
 
   size: function() {
-    var size = 0;
-    for (var key in this.storage) {
-      if (this.storage.hasOwnProperty(key)) {
-        size++;
-      }
-    }
-    return size;
+    return this.count;
   }
 };
 
