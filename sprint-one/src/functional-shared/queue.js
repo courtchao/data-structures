@@ -6,9 +6,7 @@ var Queue = function() {
   someInstance.beginning = 0;
   someInstance.end = 0;
   someInstance.count = 0;
-
   _.extend(someInstance, queueMethods);
-
   return someInstance;
 };
 
